@@ -13,7 +13,7 @@ public class SendMessage1000SymbolsTest extends SettingsForTests {
             randomString.append(symbols.charAt((int) (Math.random() * symbols.length())));
         }
         String checkLocator = "//div[contains(text(),'" + randomString + "')]";
-        sendMessage(randomString.toString(),checkLocator);
+        sendingMessage(randomString.toString(), checkLocator);
     }
 }
 

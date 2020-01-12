@@ -9,22 +9,23 @@ import org.testng.annotations.Test;
 public class EmptyEditSentMessageTest extends SettingsForTests {
     @Test
     public void sentEmptyEditMessage() {
-        String checkLocator = "//div[contains(text(), 'Hello, again')]";
+        String checkLocator = "//div[@class='integri-chat-message ']/div";
         String message = "Hello, again";
-        sendMessage(message, checkLocator);
+        sendingMessage(message, checkLocator);
         makeMessageEmpty();
         sendEmptyMessage();
     }
 
     private void makeMessageEmpty() {
-        driver.findElement(By.xpath("//div[contains(text(), 'Hello, again')]/../following-sibling::div/span")).click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(text(), 'Hello, again')]/../following-sibling::div/span"))));
+        WebElement message = driver.findElement(By.xpath("//div[contains(text(), 'Hello, again')]/../following-sibling::div/span"));
+        message.click();
+        wait.until(ExpectedConditions.visibilityOf(message));
         driver.findElement(By.cssSelector(".integri-chat-edit-message")).click();
-        driver.findElement(By.xpath("//div/textarea")).clear();
     }
 
     private void sendEmptyMessage() {
         WebElement messageInput = driver.findElement(By.xpath("//div/textarea"));
+        messageInput.clear();
         messageInput.sendKeys(Keys.ENTER);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(text(), 'Message cannot be empty!')]"))));
     }

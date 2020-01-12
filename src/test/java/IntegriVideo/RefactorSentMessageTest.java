@@ -6,19 +6,24 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class RefactorSentMessageTest extends SettingsForTests {
     @Test
     public void sendAndRefactorMessage() {
         String message = "Hello! How are you?";
-        String checkLocator = "//div[contains(text(),'Hello! How are you?')]";
-        sendMessage(message, checkLocator);
-        driver.findElement(By.xpath("//div[contains(text(), 'Hello! How are you?')]/../following-sibling::div/span")).click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(text(), 'Hello! How are you?')]/../following-sibling::div/span"))));
+        String textEdit = "Are you OK?";
+        String checkLocator = "//div[@class='integri-chat-message ']/div";
+        sendingMessage(message, checkLocator);
+        WebElement sentMessage = driver.findElement(By.xpath("//div[contains(text(), 'Hello! How are you?')]/../following-sibling::div/span"));
+        sentMessage.click();
+        wait.until(ExpectedConditions.visibilityOf(sentMessage));
         driver.findElement(By.cssSelector(".integri-chat-edit-message")).click();
-        driver.findElement(By.xpath("//div/textarea")).clear();
-        driver.findElement(By.xpath("//div/textarea")).sendKeys("Are you OK?");
         WebElement messageInput = driver.findElement(By.xpath("//div/textarea"));
+        messageInput.clear();
+        messageInput.sendKeys(textEdit);
         messageInput.sendKeys(Keys.ENTER);
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(text(),'Are you OK?')]"))));
+        String messageAfterEdit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkLocator))).getText();
+        assertEquals(messageAfterEdit, textEdit, "Не верное сообщение");
     }
 }

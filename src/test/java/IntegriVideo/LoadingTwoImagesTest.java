@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -12,11 +13,13 @@ import static org.testng.Assert.assertEquals;
 public class LoadingTwoImagesTest extends SettingsForTests {
     @Test
     public void loadingTwoImg() {
-        String pathImg = "/Users/annschirets/IdeaProjects/IntegriVideo/src/test/java/IntegriVideo/w450h4001385925290Camera — копия.png";
+        String pathImg = "src/test/resources/Camera.png";
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".integri-chat-manual-upload"))).click();
         driver.findElement(By.xpath("//span[contains(text(), \"browse\")]")).click();
-        driver.findElement(By.xpath("//input[@type=\"file\"]")).sendKeys(pathImg);
-        driver.findElement(By.xpath("//input[@type=\"file\"]")).sendKeys(pathImg);
+        WebElement inputIMG = driver.findElement(By.xpath("//input[@type='file']"));
+        File file = new File(pathImg);
+        inputIMG.sendKeys(file.getAbsolutePath());
+        inputIMG.sendKeys(file.getAbsolutePath());
         List<WebElement> files = driver.findElements(By.xpath("//div[@class=\"integri-file-upload-filelist\"]/div"));
         assertEquals(files.size(), 2, "Неверное количество файлов");
         driver.findElement(By.xpath("//button[contains(text(), \"Start\")]")).click();

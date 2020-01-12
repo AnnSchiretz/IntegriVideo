@@ -7,6 +7,6 @@ public class SendMessageWithHTMLCodeTest extends SettingsForTests {
     public void sendInvalidMessage() {
         String sendMessage = "<html><body><p>test</p></body></html>";
         String checkLocator = "//p";
-        sendMessage(sendMessage, checkLocator);
+        sendingMessage(sendMessage, checkLocator);
     }
 }
