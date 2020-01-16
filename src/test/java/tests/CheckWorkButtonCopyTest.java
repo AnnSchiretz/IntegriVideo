@@ -1,7 +1,7 @@
-package IntegriVideo;
+package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+import pages.IntegriVideoChat;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -11,12 +11,12 @@ import java.io.IOException;
 import static org.testng.Assert.assertEquals;
 
 public class CheckWorkButtonCopyTest extends SettingsForTests {
+    IntegriVideoChat chat;
     @Test
     public void clickCopyButton() throws IOException, UnsupportedFlavorException {
-        String textOnPage = driver.findElement(By.xpath("//code")).getText();
+        chat = new IntegriVideoChat(driver);
+        String textOnPage = chat.clickCopyCode();
         String copyRefactorText = textOnPage.replaceAll("\n", "");
-        driver.findElement(By.cssSelector(".component-code")).click();
-        driver.findElement(By.xpath("//span[contains(text(), 'Code was copied')]")).isDisplayed();
         String textInBuffer = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
         assertEquals(copyRefactorText, textInBuffer, "Не совпала информация с DOM и в буфере обмена");
     }
