@@ -37,9 +37,6 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(INPUT_MESSAGE).sendKeys(message);
         driver.findElement(BUTTON_SEND_MESSAGE).click();
     }
-    public void clickMessageInChatWindow(int count){
-        driver.findElements(COUNT_MESSAGES_IN_CHAT_WINDOW).get(count - 1);
-    }
     public void messageShouldContainText(String message, int messageNumber) {
         wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(MESSAGE_IN_WINDOW, messageNumber - 1));
@@ -77,7 +74,7 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(ALERT_AFTER_CLICK_INVITE_BUTTON).isDisplayed();
     }
     public void deleteMessage(){
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(BUTTON_DELETE_MESSAGE));
+        wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
         driver.findElement(BUTTON_DELETE_MESSAGE).click();
     }
     public void clickEditMessage(String text, int number){
