@@ -3,9 +3,12 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
@@ -73,9 +76,13 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(BUTTON_INVITE).click();
         driver.findElement(ALERT_AFTER_CLICK_INVITE_BUTTON).isDisplayed();
     }
-    public void deleteMessage(){
-        wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
-        driver.findElement(BUTTON_DELETE_MESSAGE).click();
+    public void deleteMessage(int countMessage){
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(MESSAGE_IN_WINDOW));
+        List<WebElement> message = driver.findElements(MESSAGE_IN_WINDOW);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(message.get(countMessage - 1));
+        WebElement buttonDelete = driver.findElement(BUTTON_DELETE_MESSAGE);
+        actions.click(buttonDelete).perform();
     }
     public void clickEditMessage(String text, int number){
         driver.findElements(COUNT_MESSAGES_IN_CHAT_WINDOW).get(number - 1).click();

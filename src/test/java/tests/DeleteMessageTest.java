@@ -13,11 +13,11 @@ public class DeleteMessageTest extends SettingsForTests {
         String message = "Hello";
         chat = new IntegriVideoChat(driver);
         chat.sendMessage(message);
-        deleteMessage();
+        chat.deleteMessage(1);
+        moveAndAcceptAlert();
     }
 
-    private void deleteMessage() {
-        chat.deleteMessage();
+    private void moveAndAcceptAlert() {
         Alert alert = driver.switchTo().alert();
         String alertResult = alert.getText();
         assertEquals(alertResult, "Are you sure to delete message?", "Неверное сообщение в аллерте");
