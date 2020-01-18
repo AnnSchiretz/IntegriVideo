@@ -12,8 +12,7 @@ public class RefactorSentMessageTest extends SettingsForTests {
         chat = new IntegriVideoChat(driver);
         chat.sendMessage(message);
         chat.messageShouldContainText(message, 1);
-        chat.clickEditMessage();
-        chat.inputTextInEditInputAndSendMessage(textEdit);
+        chat.clickEditMessage(textEdit, 1);
         chat.messageShouldContainText(textEdit, 1);
     }
 }

@@ -14,6 +14,6 @@ public class LoadingOnceImageTest extends SettingsForTests {
         chat = new IntegriVideoChat(driver);
         upload = new IntegriVideoUploadImages(driver);
         chat.goToFileUpload();
-        upload.uploadOnceImg(pathImg, 1);
+        upload.uploadImg(1, pathImg);
     }
 }

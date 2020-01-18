@@ -11,6 +11,7 @@ public class EmptyEditSentMessageTest extends SettingsForTests {
         chat = new IntegriVideoChat(driver);
         chat.sendMessage(message);
         chat.messageShouldContainText(message, 1);
-        chat.makeMessageEmptyAndSend();
+        chat.clickEditMessage("", 1);
+        chat.alertMessageValidation();
     }
 }

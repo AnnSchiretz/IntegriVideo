@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class SettingsForTests {
@@ -20,8 +19,8 @@ public class SettingsForTests {
         wait = new WebDriverWait(driver, 20);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".integri-chat-bottom-text")));
     }
-    @AfterMethod
-    public void afterTest() {
-        driver.quit();
-    }
+//    @AfterMethod
+//    public void afterTest() {
+//        driver.quit();
+//    }
 }

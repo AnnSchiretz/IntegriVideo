@@ -11,6 +11,7 @@ import static org.testng.Assert.assertEquals;
 
 public class IntegriVideoChat extends BasePage {
     private static final By INPUT_MESSAGE = By.xpath("//textarea");
+    private static final By COUNT_MESSAGES_IN_CHAT_WINDOW = By.cssSelector(".integri-chat-messages .integri-chat-message-own");
     private static final By MESSAGE_IN_WINDOW = By.xpath("//div[@class='integri-chat-message-text']");
     private static final By BUTTON_SEND_MESSAGE = By.xpath("//button[@title='Send message']");
     private static final By BUTTON_COPY_CODE = By.xpath("//code");
@@ -21,7 +22,7 @@ public class IntegriVideoChat extends BasePage {
     private static final By TRIAL_VERSION_MESSAGE = By.xpath("//div[contains(text(),'This is trial version')]");
     private static final By TRIAL_VERSION_CLICK_SKIP = By.cssSelector(".close-demo-screen");
     private static final By LINK_IN_MESSAGE = By.xpath("//div[@class='integri-chat-message-text']/a");
-    private static final By ALERT_THEN_MESSAGE_EMPTY = By.xpath("//div[contains(text(), 'Message cannot be empty!')]");
+    private static final By ALERT_THEN_MESSAGE_EMPTY = By.cssSelector(".integri-notify-error");
     private static final By FIELD_EDIT_MESSAGE = By.xpath("//div/textarea");
     private static final By GET_COUNT_MESSAGE = By.cssSelector(".integri-chat-messages");
     private static final By MESSAGE_AFTER_COPY_MESSAGE = By.xpath("//span[contains(text(), 'Code was copied')]");
@@ -36,12 +37,8 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(INPUT_MESSAGE).sendKeys(message);
         driver.findElement(BUTTON_SEND_MESSAGE).click();
     }
-    public void makeMessageEmptyAndSend(){
-        driver.findElement(MESSAGE_IN_WINDOW).click();
-        driver.findElement(BUTTON_EDIT_MESSAGE).click();
-        driver.findElement(FIELD_EDIT_MESSAGE).clear();
-        driver.findElement(FIELD_EDIT_MESSAGE).sendKeys(Keys.ENTER);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(ALERT_THEN_MESSAGE_EMPTY));
+    public void clickMessageInChatWindow(int count){
+        driver.findElements(COUNT_MESSAGES_IN_CHAT_WINDOW).get(count - 1);
     }
     public void messageShouldContainText(String message, int messageNumber) {
         wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
@@ -52,12 +49,6 @@ public class IntegriVideoChat extends BasePage {
     public void setMessage(String message){
         wait.until(ExpectedConditions.elementToBeClickable(INPUT_MESSAGE)).click();
         driver.findElement(INPUT_MESSAGE).sendKeys(message);
-    }
-    public void inputTextInEditInputAndSendMessage(String editMessage){
-        driver.findElement(FIELD_EDIT_MESSAGE).click();
-        driver.findElement(FIELD_EDIT_MESSAGE).clear();
-        driver.findElement(FIELD_EDIT_MESSAGE).sendKeys(editMessage);
-        driver.findElement(FIELD_EDIT_MESSAGE).sendKeys(Keys.ENTER);
     }
     public int getCountMessage(){
         int result = driver.findElements(GET_COUNT_MESSAGE).size();
@@ -86,16 +77,25 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(ALERT_AFTER_CLICK_INVITE_BUTTON).isDisplayed();
     }
     public void deleteMessage(){
-        wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(BUTTON_DELETE_MESSAGE));
         driver.findElement(BUTTON_DELETE_MESSAGE).click();
     }
-    public void clickEditMessage(){
+    public void clickEditMessage(String text, int number){
+        driver.findElements(COUNT_MESSAGES_IN_CHAT_WINDOW).get(number - 1).click();
         driver.findElement(BUTTON_EDIT_MESSAGE).click();
+        driver.findElement(FIELD_EDIT_MESSAGE).clear();
+        driver.findElement(FIELD_EDIT_MESSAGE).sendKeys(text);
+        driver.findElement(FIELD_EDIT_MESSAGE).sendKeys(Keys.ENTER);
+    }
+    public void alertMessageValidation(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ALERT_THEN_MESSAGE_EMPTY));
+        String resultAlert = driver.findElement(ALERT_THEN_MESSAGE_EMPTY).getText();
+        assertEquals(resultAlert, "Message cannot be empty!", "Не верный текст сообщения в алерте");
     }
     public void validationUserName(String nameUser){
         wait.until(ExpectedConditions.visibilityOfElementLocated(USER_NAME_IN_CHAT_WINDOW));
         String newName = driver.findElement(USER_NAME_IN_CHAT_WINDOW).getText();
-        assertEquals(newName, nameUser, "Не совпали именя порсле изменения в настройкках");
+        assertEquals(newName, nameUser, "Не совпали имена после изменения в настройках");
     }
     public void skipTrialVersion(){
         driver.findElement(TRIAL_VERSION_MESSAGE);

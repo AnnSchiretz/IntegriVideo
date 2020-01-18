@@ -13,6 +13,6 @@ public class LoadingTwoImagesTest extends SettingsForTests {
         chat = new IntegriVideoChat(driver);
         upload = new IntegriVideoUploadImages(driver);
         chat.goToFileUpload();
-        upload.uploadTwoImgAndCheckUploading(pathImg, 2);
+        upload.uploadImg( 2, pathImg);
     }
 }
