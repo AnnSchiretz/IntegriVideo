@@ -152,11 +152,4 @@ public class ProjectPage extends BasePage {
         assertNotEquals(count, 0, "Не создались компоненты!");
         return this;
     }
-//    домены!
-//    for( int i = 0; i< projects.getDomains().size(); i ++){
-//        driver.findElements("domains").get(i).sendKeys(project.getDomains().get(i));
-//    }
-    // добавить сбор количества заполненых полей с доменами.
-
-
 }

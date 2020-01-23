@@ -55,6 +55,5 @@ public class LogInPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(MESSAGE_ALERT));
 
     }
-    //проверка, что пользователь залогинен!
 }
 
