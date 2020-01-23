@@ -18,7 +18,13 @@ public class IntegriVideoSettings extends BasePage {
     public IntegriVideoSettings(WebDriver driver){
         super(driver);
     }
+    @Override
+    public void openPage() {
+    }
 
+    @Override
+    public void isPageOpened() {
+    }
     public void inputEmailInFormAndSave(String email){
         driver.findElement(SETTINGS_FORM);
         driver.findElement(EMAIL_INPUT).click();

@@ -24,6 +24,16 @@ public class IntegriVideoUploadImages extends BasePage {
         super(driver);
     }
 
+    @Override
+    public void openPage() {
+
+    }
+
+    @Override
+    public void isPageOpened() {
+
+    }
+
     public void uploadImg(int count, String... pathImg){
         wait.until(ExpectedConditions.elementToBeClickable(BUTTON_BROWSE)).click();
         WebElement inputIMG = driver.findElement(ADD_IMG_INPUT);
