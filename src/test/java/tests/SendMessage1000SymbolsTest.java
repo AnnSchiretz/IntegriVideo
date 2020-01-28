@@ -1,9 +1,11 @@
-package IntegriVideo;
+package tests;
 
 
 import org.testng.annotations.Test;
+import pages.IntegriVideoChat;
 
 public class SendMessage1000SymbolsTest extends SettingsForTests {
+    IntegriVideoChat chat;
     @Test
     public void sendMessage() {
         String symbols = "abcdefghijklmnopqrstuvwxyz";
@@ -12,8 +14,9 @@ public class SendMessage1000SymbolsTest extends SettingsForTests {
         for (int i = 0; i < count; i++) {
             randomString.append(symbols.charAt((int) (Math.random() * symbols.length())));
         }
-        String checkLocator = "//div[contains(text(),'" + randomString + "')]";
-        sendingMessage(randomString.toString(), checkLocator);
+        chat = new IntegriVideoChat(driver);
+        chat.sendMessage(randomString.toString());
+        chat.messageShouldContainText(randomString.toString(), 1);
     }
 }
 

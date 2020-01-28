@@ -1,8 +1,8 @@
-package IntegriVideo;
+package tests;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.Test;
+import pages.IntegriVideoChat;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -12,10 +12,11 @@ import java.util.ArrayList;
 
 
 public class CheckWorkInviteButtonTest extends SettingsForTests {
+    IntegriVideoChat chat;
     @Test
     public void clickInviteButton() throws IOException, UnsupportedFlavorException {
-        driver.findElement(By.id("invite-users-to-chat")).click();
-        driver.findElement(By.xpath("//span[contains(text(),'Link was copied')]/following-sibling::a")).isDisplayed();
+        chat = new IntegriVideoChat(driver);
+        chat.clickInviteButton();
         String textInBuffer = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
         ((JavascriptExecutor) driver).executeScript("window.open();");
         ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
