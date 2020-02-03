@@ -41,7 +41,10 @@ public class SumTest {
         String res = String.valueOf(number);
         assertEquals(res.trim(),calc.sum(num,Double.parseDouble(res)), "Не сошлись результаты вычислений");
     }
-
+    @Test
+    public void runTest() {
+        System.out.println("testProp is set to: " + System.getProperty("testProp"));
+    }
     @AfterMethod
     public void afterMethod() {
         try {
