@@ -1,9 +1,6 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -40,6 +37,14 @@ public class IntegriVideoChat extends BasePage {
         driver.findElement(INPUT_MESSAGE).sendKeys(message);
         driver.findElement(BUTTON_SEND_MESSAGE).click();
     }
+    @Override
+    public void openPage() {
+    }
+
+    @Override
+    public void isPageOpened() {
+    }
+
     public void messageShouldContainText(String message, int messageNumber) {
         wait.until(ExpectedConditions.elementToBeClickable(MESSAGE_IN_WINDOW));
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(MESSAGE_IN_WINDOW, messageNumber - 1));
