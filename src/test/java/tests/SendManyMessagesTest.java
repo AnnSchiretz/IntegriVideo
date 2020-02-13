@@ -1,27 +1,18 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
-
-import java.util.concurrent.TimeUnit;
 
 public class SendManyMessagesTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Send many message")
+    @Description("Check visibility modal window this message about trail version")
     public void sendManyMessage() {
         String message = "Hello";
-        chat = new IntegriVideoChat(driver);
-        int count = chat.getCountMessage();
+        int count = chatSteps.getCountMessage();
         for (int i = 0; i <= 9; i++) {
-            chat.setMessage(message);
-            chat.clickSendMessage();
-            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-            chat.messageShouldContainText(message,count);
+            chatSteps.sendMessageAndEqualsText(message,count);
             count++;
         }
-        chat.setMessage(message);
-        chat.clickSendMessage();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        chat.skipTrialVersion();
+        chatSteps.sendMessageAndSkipTrialVersion(message);
     }
 }

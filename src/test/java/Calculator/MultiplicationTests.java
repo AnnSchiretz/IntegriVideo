@@ -1,5 +1,6 @@
 package Calculator;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,14 +22,16 @@ public class MultiplicationTests {
         number1 = Math.random() * 100;
         secondWorkNumber = Math.round(number1 * 100d)/ 100d;
     }
-    @Test(threadPoolSize = 2, retryAnalyzer = Retry.class)
+    @Test(description = "simple multiplication",threadPoolSize = 2, retryAnalyzer = Retry.class)
+    @Description("simple multiplication")
     public void multiplication(){
         System.out.println(workNumber * secondWorkNumber);
         String validation = String.valueOf(workNumber * secondWorkNumber);
         System.out.println(validation);
         assertEquals(validation,calc.multiplication(workNumber,secondWorkNumber), "Не сошлись результаты");
     }
-    @Test(invocationCount = 5, threadPoolSize = 2)
+    @Test(description = "multiplication with zero",invocationCount = 5, threadPoolSize = 2)
+    @Description("multiplication with zero")
     public void multiplicationWithZero(){
         double number = 0;
         String validation = String.valueOf(number * secondWorkNumber);

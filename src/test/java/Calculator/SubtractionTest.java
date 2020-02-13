@@ -1,5 +1,6 @@
 package Calculator;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -28,13 +29,15 @@ public class SubtractionTest {
         };
     }
 
-    @Test(dataProvider = "dataForSubtractionNumbers", priority = 5)
+    @Test(description = "subtraction number",dataProvider = "dataForSubtractionNumbers", priority = 5)
+    @Description("subtraction")
     public void subtractionNumbers(double num, double num1) {
         String result = String.valueOf(number - number1);
         System.out.println(calc.subtraction(number,number1));
         assertEquals(result,calc.subtraction(number,number1), "Не сошлись результаты вычислений");
     }
-    @Test(priority = 0)
+    @Test(description = "subtraction number",priority = 0)
+    @Description("subtraction negative numbers")
     public void subtractNegativeNumbers(){
         String result = String.valueOf(-number - -number1);
         System.out.println(calc.subtraction(-number, -number1));

@@ -1,25 +1,22 @@
 package tests;
 
+import io.qameta.allure.Description;
 import models.Project;
 import models.User;
 import org.testng.annotations.Test;
-import pages.LogInPage;
-import pages.ProjectPage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AddANewProjectTest extends SettingsForTests {
-    @Test
+    @Test(description = "Add new project in system")
+    @Description("check project was create")
     public void signUp(){
         User user = new User("schirets54646@mailinator.com","12345678");
-        LogInPage logIn = new LogInPage(driver);
-        logIn.openPage();
-        ProjectPage projectPage = logIn.logIn(user);
-        int count = projectPage.countProjectBeforeCreation();
-        createNewProjectAndCheckCreate(count);
+        logInSteps.loginInSystem(user);
+        createNewProjectAndCheckCreate();
     }
-     private void createNewProjectAndCheckCreate(int count){
+     private void createNewProjectAndCheckCreate(){
         String symbols = "abcdefghij";
         StringBuilder description = new StringBuilder();
         int countSymbol = 100;
@@ -27,9 +24,6 @@ public class AddANewProjectTest extends SettingsForTests {
             description.append(symbols.charAt((int) (Math.random() * symbols.length())));
         }
         Project project = new Project("TUT.BY", description.toString(), new ArrayList<>(Arrays.asList("tut.by", "onliner.by")));
-        ProjectPage projectPage = new ProjectPage(driver);
-        projectPage.openPage();
-        projectPage.createNewProject(project);
-        projectPage.checkThatTheProjectWasCreate(count);
+        projectSteps.addNewProject(project);
     }
 }

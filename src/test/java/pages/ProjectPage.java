@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import models.Project;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.AllureUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,8 @@ public class ProjectPage extends BasePage {
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
+
+    @Step("Open page")
     public void openPage(){
         driver.get("https://dev.integrivideo.com/app/projects");
         isPageOpened();
@@ -65,20 +69,25 @@ public class ProjectPage extends BasePage {
             driver.findElement(By.cssSelector(".new"));
         } catch (TimeoutException ex){
             System.out.println("Не отобразились элементы!");
+            AllureUtils.takeScreenshot(driver);
             throw new TimeoutException ("Не отобразились элементы!");
         }
     }
+    @Step("Validation count project before creating")
     public int countProjectBeforeCreation(){
         List<WebElement> project = driver.findElements(COUNT_PROJECT);
         return project.size();
     }
+    @Step("Check creating project")
     public void checkThatTheProjectWasCreate(int countBeforeCreate){
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(COUNT_PROJECT));
         List<WebElement> project = driver.findElements(COUNT_PROJECT);
         int countAfterCreate = project.size();
         assertEquals(countBeforeCreate + 1, countAfterCreate, "Не был создан новый проект!");
+        AllureUtils.takeScreenshot(driver);
     }
-    public void createNewProject(Project project){
+    @Step("Creating project")
+    public ProjectPage createNewProject(Project project){
         PageFactory.initElements(driver, ProjectPage.this);
         addNewProject.click();
         inputProjectName.sendKeys(project.getNameProject());
@@ -88,7 +97,10 @@ public class ProjectPage extends BasePage {
             driver.findElements(By.name("domains[]")).get(i).sendKeys(project.getDomains().get(i));
         }
         buttonCreate.click();
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
+    @Step("Click last project")
     public ProjectPage clickLastCreateProject(){
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(COUNT_PROJECT));
         List<WebElement> project = driver.findElements(COUNT_PROJECT);
@@ -96,18 +108,21 @@ public class ProjectPage extends BasePage {
         lastProject.click();
         return this;
     }
+    @Step("Add new domain")
     private void addNewDomain(String string){
         PageFactory.initElements(driver, ProjectPage.this);
         List<WebElement> inputDomain = driver.findElements(DOMAINS_COUNT);
         inputDomain.get(inputDomain.size() - 1).sendKeys( string);
         buttonCreate.click();
     }
+    @Step("adding domains in project ")
     public void addNewDomainsInProject(String addDomain,ArrayList<String> string){
         PageFactory.initElements(driver, ProjectPage.this);
         editProject.click();
         addNewDomain(addDomain);
         checkAddingDomain(addDomain);
     }
+    @Step("validation adding domain in project")
     private void checkAddingDomain(String addDomain){
         wait.until(ExpectedConditions.visibilityOfElementLocated(COUNT_PROJECT));
         clickLastCreateProject();
@@ -117,7 +132,9 @@ public class ProjectPage extends BasePage {
         WebElement lastInput = inputDomain.get(inputDomain.size() - 2);
         String resultInProjectPageDomain = wait.until(ExpectedConditions.visibilityOf(lastInput)).getAttribute("value");
         assertEquals(resultInProjectPageDomain, addDomain, "Не совпали домены при проверке после добавления");
+        AllureUtils.takeScreenshot(driver);
     }
+    @Step("add new component ")
     public ProjectPage addNewComponent(String name){
         clickLastCreateProject();
         PageFactory.initElements(driver, ProjectPage.this);
@@ -128,6 +145,7 @@ public class ProjectPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(updateComponent));
         return this;
     }
+    @Step("select component type")
     private void selectAComponentType(){
         String typeBeforeSelect = driver.findElement(SELECTED_TYPE).getText();
         componentType.click();
@@ -137,11 +155,14 @@ public class ProjectPage extends BasePage {
         choiceComponent.click();
         String selectedType = driver.findElement(SELECTED_TYPE).getText();
         assertNotEquals(typeBeforeSelect, selectedType, "не произошел выбор, либо числа так совпали, что произошел выбор того же типа, что и был");
+        AllureUtils.takeScreenshot(driver);
     }
+    @Step("add component name")
     private void addComponentName(String name){
         componentName.click();
         componentName.sendKeys(name);
     }
+    @Step("check update component")
     public ProjectPage checkUpdateComponent(){
         returnToProjects.click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(COUNT_PROJECT));
@@ -150,6 +171,7 @@ public class ProjectPage extends BasePage {
         String countComponent = lastProject.getText();
         char count = countComponent.charAt(18);
         assertNotEquals(count, 0, "Не создались компоненты!");
+        AllureUtils.takeScreenshot(driver);
         return this;
     }
 }

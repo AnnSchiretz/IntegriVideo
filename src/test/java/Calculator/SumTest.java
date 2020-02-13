@@ -1,5 +1,6 @@
 package Calculator;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,20 +20,23 @@ public class SumTest {
     }
 
 
-    @Test
+    @Test(description = "sum third numbers")
+    @Description("sum")
     public void checkSumThirdNumbers(){
         double numberThird = Math.random() * 1000;
         calc.sum(number, number1, numberThird);
         String res = String.valueOf(number+number1 + numberThird);
         assertEquals(res,calc.sum(number, number1, numberThird), "Не сошлись результаты вычислений");
     }
-    @Test(invocationCount = 5)
+    @Test(description = "sum with negative number",invocationCount = 5)
+    @Description("sum")
     public void checkSumWithNegativeNumber(){
         double num = -665.9;
         String result = String.valueOf(num + number);
         assertEquals(result,calc.sum(number,num), "Не сошлись результаты вычислений");
     }
-    @Test
+    @Test(description = "sum with zero")
+    @Description("sum with zero")
     public void sumWithZero(){
         double num = 0;
         number = number * 100;
@@ -41,7 +45,8 @@ public class SumTest {
         String res = String.valueOf(number);
         assertEquals(res.trim(),calc.sum(num,Double.parseDouble(res)), "Не сошлись результаты вычислений");
     }
-    @Test
+    @Test(description = "set test property")
+    @Description("property")
     public void runTest() {
         System.out.println("testProp is set to: " + System.getProperty("testProp"));
     }

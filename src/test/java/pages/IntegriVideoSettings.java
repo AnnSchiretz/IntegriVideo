@@ -1,8 +1,10 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.AllureUtils;
 
 import static org.testng.Assert.assertEquals;
 
@@ -25,28 +27,40 @@ public class IntegriVideoSettings extends BasePage {
     @Override
     public void isPageOpened() {
     }
-    public void inputEmailInFormAndSave(String email){
+    @Step("change email in settings modal")
+    public  IntegriVideoSettings inputEmailInFormAndSave(String email){
         driver.findElement(SETTINGS_FORM);
         driver.findElement(EMAIL_INPUT).click();
         driver.findElement(EMAIL_INPUT).sendKeys(email);
         driver.findElement(BUTTON_SAVE).click();
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
-    public void inputUserInFormAndSave(String userName){
+    @Step("change user name in settings modal")
+    public IntegriVideoSettings inputUserInFormAndSave(String userName){
         wait.until(ExpectedConditions.elementToBeClickable(USER_NAME_INPUT)).click();
         driver.findElement(USER_NAME_INPUT).clear();
         driver.findElement(USER_NAME_INPUT).sendKeys(userName);
         driver.findElement(BUTTON_SAVE).click();
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
-    public void inputUrlInFormAndSave(String photoUrl){
+    @Step("change user url photo in settings modal")
+    public IntegriVideoSettings inputUrlInFormAndSave(String photoUrl){
         driver.findElement(PHOTO_URL_INPUT);
         driver.findElement(PHOTO_URL_INPUT).click();
         driver.findElement(PHOTO_URL_INPUT).sendKeys(photoUrl);
         driver.findElement(BUTTON_SAVE).click();
         driver.findElement(USER_PHOTO_IN_CHAT_WINDOW);
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
-    public void validationEmail(String email){
+    @Step("change user url photo in settings modal")
+    public IntegriVideoSettings validationEmail(String email){
         wait.until(ExpectedConditions.visibilityOfElementLocated(SETTINGS_FORM));
         String text = wait.until(ExpectedConditions.elementToBeClickable(EMAIL_INPUT)).getAttribute("value");
         assertEquals(email, text, "Message text is not correct");
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
 }

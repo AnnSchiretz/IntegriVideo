@@ -1,16 +1,13 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
 
 public class SendMessageByClickEnterTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Send message ")
+    @Description("Send message by enter")
     public void sendMessage() {
         String message = "Hello!";
-        chat = new IntegriVideoChat(driver);
-        chat.sendMessage(message);
-        chat.sendMessageByEnter();
-        chat.messageShouldContainText(message, 1);
+        chatSteps.sendMessageByEnterAndValidationText(message, 1);
     }
 }

@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import models.Card;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.AllureUtils;
 
 import java.util.List;
 
@@ -51,28 +53,40 @@ public class BillingPage extends BasePage {
             throw new TimeoutException("Страница не загрузилась");
         }
     }
-
+    @Step("Count before create new card")
     public int countCardBeforeAdding(){
         List<WebElement> cards = driver.findElements(COUNT_CARD_BEFORE_ADDING);
         return cards.size();
-
     }
-    public void createNewPaymentCardAndCheckCreate(Card card, int countCard){
-        BillingPage billing = new BillingPage(driver);
-        billing.isPageOpened();
+
+    @Step("Add new card")
+    public BillingPage addNewCard(){
+        openPage();
         addNewCard.click();
-        wait.until(ExpectedConditions.elementToBeClickable(cardForm));
+        AllureUtils.takeScreenshot(driver);
+        return this;
+    }
+    @Step("Filling out information card")
+    public BillingPage fillingOutInformCard(Card card){
+        wait.until(ExpectedConditions.visibilityOf(addCard));
         cardNumber.sendKeys(card.getNumber());
         cardMonth.sendKeys(card.getMonth());
         cardYear.sendKeys(card.getYear());
         cardName.sendKeys(card.getNameLastName());
         wait.until(ExpectedConditions.elementToBeClickable(addCard)).click();
+        AllureUtils.takeScreenshot(driver);
+        return this;
+    }
+    @Step("Check count cards")
+    public BillingPage checkCountCardAfterCreateNewCard(int countCard){
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(COUNT_CARD_BEFORE_ADDING));
         List<WebElement> cards = driver.findElements(COUNT_CARD_BEFORE_ADDING);
         assertNotEquals(countCard, cards.size(), "не добавилась карта");
-
+        return this;
     }
-    public void makeCardDefault(){
+    @Step("Make another card default and check this")
+    public BillingPage makeCardDefault(){
+        AllureUtils.takeScreenshot(driver);
         List<WebElement> cards = driver.findElements(MAKE_DEFAULT_BUTTON);
         if(cards.size() == 1){
             wait.until(ExpectedConditions.elementToBeClickable(MAKE_DEFAULT_BUTTON)).click();
@@ -81,5 +95,7 @@ public class BillingPage extends BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(cards.get(cards.size() - 1))).click();
         }
         wait.until(ExpectedConditions.invisibilityOfElementLocated(MAKE_DEFAULT_MESSAGE));
+        AllureUtils.takeScreenshot(driver);
+        return this;
     }
 }

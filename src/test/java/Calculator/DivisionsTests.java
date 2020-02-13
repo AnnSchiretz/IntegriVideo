@@ -1,5 +1,6 @@
 package Calculator;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,26 +22,29 @@ public class DivisionsTests {
         number1 = Math.random() * 10000;
         secondWorkNumber = Math.round(number1 * 10d)/ 10d;
     }
-    @Test
+    @Test(description = "Simple division operation")
+    @Description("division")
     public void divisionOperation(){
         String result = String.valueOf(workNumber / secondWorkNumber);
         System.out.println(result);
         System.out.println(calc.division(workNumber, secondWorkNumber));
-        assertEquals(result, calc.division(workNumber, secondWorkNumber),"Не сошлись результаты вычислений");
+        assertEquals("не сошлись результаты",result,calc.division(workNumber, secondWorkNumber));
     }
-    @Test
+    @Test(description = "division operation with zero")
+    @Description("division operation with zero")
     public void divisionOperationWithZero(){
         double number = 0;
         String result = String.valueOf(workNumber / number);
         System.out.println(calc.division(workNumber, number));
-        assertEquals(result,calc.division(workNumber, number),"Не сошлись результаты вычислений");
+        assertEquals("Не сошлись результаты вычислений",result,calc.division(workNumber, number));
     }
-    @Test
+    @Test(description = "division operation with zero")
+    @Description("zero on the zero")
     public void divisionZeroOnTheZero(){
         double number = 0;
         String result = String.valueOf(number/ number);
         System.out.println(calc.division(number, number));
-        assertEquals(result,calc.division(number, number),"Не сошлись результаты вычислений");
+        assertEquals("Не сошлись результаты вычислений",result,calc.division(number, number));
     }
 
     @AfterMethod

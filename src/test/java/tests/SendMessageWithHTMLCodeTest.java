@@ -1,16 +1,15 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
 
 public class SendMessageWithHTMLCodeTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Send message with html code")
+    @Description("validation message with html code")
     public void sendInvalidMessage() {
         String sendMessage = "<html><body><p>test</p></body></html>";
         String messageText = "test";
-        chat = new IntegriVideoChat(driver);
-        chat.sendMessage(sendMessage);
-        chat.messageShouldContainText(messageText, 1);
+        chatSteps.sendMessage(sendMessage)
+                .validationMessage(messageText, 1);
     }
 }

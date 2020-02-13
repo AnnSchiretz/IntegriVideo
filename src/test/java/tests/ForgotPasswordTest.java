@@ -1,23 +1,23 @@
 package tests;
 
+import io.qameta.allure.Description;
 import models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
-import pages.LogInPage;
 
 import java.util.ArrayList;
 
 public class ForgotPasswordTest extends SettingsForTests {
-    @Test
+    @Test(description = "Check functional forgot password")
+    @Description("check send letters on email")
     public void forgotPassword(){
         User user = new User("schirets54646@mailinator.com","12345678");
-        LogInPage logIn = new LogInPage(driver);
-        logIn.openPage();
-        logIn.goToForgotPassword(user);
+        logInSteps.forgotPassword(user);
         goToEmailBox();
+        logInSteps.loginInSystem(user);
     }
     private void goToEmailBox(){
         String link = "https://www.mailinator.com/v3/#/#inboxpane";

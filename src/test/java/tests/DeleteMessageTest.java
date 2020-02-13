@@ -1,19 +1,18 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.openqa.selenium.Alert;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
 
 import static org.testng.Assert.assertEquals;
 
 public class DeleteMessageTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Send message and delete it in chat window")
+    @Description("check alert visibility at process delete message")
     public void sendMessage() {
         String message = "Hello";
-        chat = new IntegriVideoChat(driver);
-        chat.sendMessage(message);
-        chat.deleteMessage(1);
+        chatSteps.sendMessage(message)
+                .deleteMessage(1);
         moveAndAcceptAlert();
     }
 

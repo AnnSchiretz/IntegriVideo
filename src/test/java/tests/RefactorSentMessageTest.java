@@ -1,18 +1,15 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
 
 public class RefactorSentMessageTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Edit send message in chat window")
+    @Description("Check edit message option")
     public void sendAndRefactorMessage() {
         String message = "Hello! How are you?";
         String textEdit = "Are you OK?";
-        chat = new IntegriVideoChat(driver);
-        chat.sendMessage(message);
-        chat.messageShouldContainText(message, 1);
-        chat.clickEditMessage(textEdit, 1);
-        chat.messageShouldContainText(textEdit, 1);
+        chatSteps.sendMessageAndEqualsText(message, 1)
+                .editMessageWithValidation(textEdit,1);
     }
 }
