@@ -1,18 +1,15 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
 
 public class SendMessageWithLinkTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    @Test
+    @Test(description = "Send message ")
+    @Description("Send message with link")
     public void sendMessageWithLink() {
         String message = "Hello! https://habr.com/ru/";
         String locator = "//div[@id='TMpanel']";
-        chat = new IntegriVideoChat(driver);
-        chat.sendMessage(message);
-        chat.messageShouldContainText(message, 1);
-        chat.followingTheLinkInMessage();
-        chat.moveToAnotherTabs(1, locator);
+        chatSteps.sendMessageAndEqualsText(message, 1)
+                .goToLinkAndMoveToThisTab(1, locator);
     }
 }

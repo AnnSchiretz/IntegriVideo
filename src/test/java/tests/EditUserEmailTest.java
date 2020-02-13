@@ -1,20 +1,16 @@
 package tests;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
-import pages.IntegriVideoChat;
-import pages.IntegriVideoSettings;
 
 public class EditUserEmailTest extends SettingsForTests {
-    IntegriVideoChat chat;
-    IntegriVideoSettings settings;
-    @Test
+    @Test(description = "Send message in chat and edit it")
+    @Description("try send empty message")
     public void editEmail() {
         String newEmail = "123456@gmail.com";
-        settings = new IntegriVideoSettings(driver);
-        chat = new IntegriVideoChat(driver);
-        chat.goToSettingsModal();
-        settings.inputEmailInFormAndSave(newEmail);
-        chat.goToSettingsModal();
-        settings.validationEmail(newEmail);
+        chatSteps.goToSettingsChat();
+        settingsSteps.changeEmail(newEmail);
+        chatSteps.goToSettingsChat();
+        settingsSteps.validationNewEmail(newEmail);
     }
 }

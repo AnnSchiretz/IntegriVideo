@@ -1,9 +1,11 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.AllureUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -24,6 +26,16 @@ public class IntegriVideoUploadImages extends BasePage {
         super(driver);
     }
 
+    @Override
+    public void openPage() {
+
+    }
+
+    @Override
+    public void isPageOpened() {
+
+    }
+    @Step("method for upload images in chat window")
     public void uploadImg(int count, String... pathImg){
         wait.until(ExpectedConditions.elementToBeClickable(BUTTON_BROWSE)).click();
         WebElement inputIMG = driver.findElement(ADD_IMG_INPUT);
@@ -36,10 +48,12 @@ public class IntegriVideoUploadImages extends BasePage {
         driver.findElement(BUTTON_START).click();
         List<WebElement> files = driver.findElements(UPLOADING_FILE_LIST);
         assertEquals(files.size(), count, "Неверное количество файлов");
+        AllureUtils.takeScreenshot(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(UPLOAD_PROGRESS));
         wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR_UPLOAD)).isDisplayed();
         String res = wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR_UPLOAD)).getText();
         assertEquals(res, "", "Указаное количество изображений не загружено!");
+        AllureUtils.takeScreenshot(driver);
     }
 
 }
